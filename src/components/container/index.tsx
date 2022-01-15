@@ -1,1 +1,1 @@
-import container from './Container.tsx';
+import container from './Container';
