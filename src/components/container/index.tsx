@@ -1,1 +1,3 @@
-import container from './Container.tsx';
+import Container from './container';
+
+export default Container;
