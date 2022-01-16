@@ -30,13 +30,13 @@ const OrderBook: React.FC<IProps> = ({
           <table className="w-full">
             <thead>
               <tr className="text-gray-500">
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.total}
                 </th>
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.size}
                 </th>
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.price}
                 </th>
               </tr>
@@ -53,13 +53,17 @@ const OrderBook: React.FC<IProps> = ({
 
                 return (
                   <tr
-                    key={price}
+                    key={`${price}-${size}-${total}`}
                     style={{
                       background: `linear-gradient(to right, transparent ${stop}%, rgb(20 83 45) ${stop}%)`,
                     }}>
-                    <td className="text-right p-1 pr-8 font-bold">{total}</td>
-                    <td className="text-right p-1 pr-8 font-bold">{size}</td>
-                    <td className="text-right p-1 pr-8 font-bold text-green-500">
+                    <td className="text-right p-1 pr-8 font-semibold">
+                      {total}
+                    </td>
+                    <td className="text-right p-1 pr-8 font-semibold">
+                      {size}
+                    </td>
+                    <td className="text-right p-1 pr-8 font-semibold text-green-500">
                       {price}
                     </td>
                   </tr>
@@ -75,13 +79,13 @@ const OrderBook: React.FC<IProps> = ({
           <table className="w-full">
             <thead>
               <tr className="text-gray-500">
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.price}
                 </th>
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.size}
                 </th>
-                <th className="text-right p-1 pr-8 font-bold">
+                <th className="text-right p-1 pr-8 font-semibold">
                   {translation.total}
                 </th>
               </tr>
@@ -97,15 +101,19 @@ const OrderBook: React.FC<IProps> = ({
                 const stop = 100 - rowDepth;
                 return (
                   <tr
-                    key={price}
+                    key={`${price}-${size}-${total}`}
                     style={{
                       background: `linear-gradient(to left, transparent ${stop}%, rgb(127 29 29) ${stop}%)`,
                     }}>
-                    <td className="text-right p-1 pr-8 font-bold text-red-500">
+                    <td className="text-right p-1 pr-8 font-semibold text-red-500">
                       {price}
                     </td>
-                    <td className="text-right p-1 pr-8 font-bold">{size}</td>
-                    <td className="text-right p-1 pr-8 font-bold">{total}</td>
+                    <td className="text-right p-1 pr-8 font-semibold">
+                      {size}
+                    </td>
+                    <td className="text-right p-1 pr-8 font-semibold">
+                      {total}
+                    </td>
                   </tr>
                 );
               })}

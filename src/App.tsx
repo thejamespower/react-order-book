@@ -45,6 +45,7 @@ const App = () => {
     bids: [],
     asks: [],
   });
+  const [feed, setFeed] = useState('PI_XBTUSD');
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
@@ -59,10 +60,10 @@ const App = () => {
       sendJsonMessage({
         event: 'subscribe',
         feed: 'book_ui_1',
-        product_ids: ['PI_XBTUSD'],
+        product_ids: [feed],
       });
     }
-  }, [readyState, sendJsonMessage]);
+  }, [feed, readyState, sendJsonMessage]);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -97,10 +98,35 @@ const App = () => {
 
   return (
     <Container>
+      <p className="p-4">
+        Pair:{' '}
+        <span className="font-semibold">
+          {feed === 'PI_XBTUSD' ? 'BTCUSD' : 'ETHUSD'}
+        </span>
+      </p>
+
       <Header title={translation.title}>
         <Spread title={translation.spread} orderBook={orderBook} />
       </Header>
+
       <OrderBook translation={translation} orderBook={orderBook} />
+
+      <div className="flex justify-center p-8">
+        <button
+          className="bg-purple-700 py-4 px-8 rounded font-bold"
+          onClick={() =>
+            setFeed((oldFeed) => {
+              sendJsonMessage({
+                event: 'unsubscribe',
+                feed: 'book_ui_1',
+                product_ids: [oldFeed],
+              });
+              return oldFeed === 'PI_XBTUSD' ? 'PI_ETHUSD' : 'PI_XBTUSD';
+            })
+          }>
+          {translation.toggleFeed}
+        </button>
+      </div>
     </Container>
   );
 };

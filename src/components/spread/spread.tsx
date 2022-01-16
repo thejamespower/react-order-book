@@ -30,7 +30,8 @@ const Spread: React.FC<IProps> = ({ title, orderBook }): null | JSX.Element => {
 
   return (
     <div className="text-center text-gray-500">
-      {!!title && <span>{title}:</span>} {spread} ({round(spreadPercentage)}%)
+      {!!title && <span>{title}:</span>} {round(spread)} (
+      {round(spreadPercentage)}%)
     </div>
   );
 };

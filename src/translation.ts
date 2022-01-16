@@ -4,4 +4,5 @@ export const translation = {
   total: 'Total',
   size: 'Size',
   price: 'Price',
+  toggleFeed: 'Toggle feed',
 };
