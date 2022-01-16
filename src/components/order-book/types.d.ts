@@ -4,6 +4,7 @@ export type ICalculatedRow = IRow;
 
 export interface IOrderBook {
   bids: ICalculatedRow[];
+  asks: ICalculatedRow[];
 }
 
 export interface IProps {
@@ -13,6 +14,7 @@ export interface IProps {
     price: string;
   };
   orderBook: {
-    bids: IRow[] | [];
+    asks: IRow[];
+    bids: IRow[];
   };
 }
