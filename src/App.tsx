@@ -15,6 +15,7 @@ import {
   FEED_DELTA,
   FEED_SNAPSHOT,
 } from './constants';
+import Button from './components/button/button';
 
 // @TODO: unit test reduceOrders
 // @TODO: move file reduceOrders
@@ -135,14 +136,13 @@ const App = () => {
         <div className="absolute bg-black/80 top-0 right-0 bottom-0 left-0 z-10 flex items-center justify-center">
           <div className="text-center bg-black p-8 rounded-lg">
             <p className="mb-8">{translation.paused}</p>
-            <button
-              className="bg-purple-700 py-4 px-8 rounded font-bold hover:bg-purple-800 active:bg-purple-900"
+            <Button
               onClick={() => {
                 sendDeltaMessage(EVENT_SUBSCRIBE);
                 setPaused(false);
               }}>
               {translation.reconnect}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -157,8 +157,7 @@ const App = () => {
       <OrderBook translation={translation} orderBook={orderBook} />
 
       <div className="flex justify-center p-8">
-        <button
-          className="bg-purple-700 py-4 px-8 rounded font-bold hover:bg-purple-800 active:bg-purple-900"
+        <Button
           onClick={() =>
             setProductId((oldFeed) => {
               sendJsonMessage({
@@ -172,7 +171,7 @@ const App = () => {
             })
           }>
           {translation.toggleFeed}
-        </button>
+        </Button>
       </div>
     </Container>
   );
