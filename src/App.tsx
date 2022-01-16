@@ -55,9 +55,8 @@ const App = () => {
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
     {
-      // @TODO: reconnect websocket on disconnect
       // Will attempt to reconnect on all close events, such as server shutting down
-      // shouldReconnect: (closeEvent) => true,
+      shouldReconnect: () => true,
     },
   );
 
