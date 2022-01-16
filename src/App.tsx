@@ -55,7 +55,6 @@ const App = () => {
     'wss://www.cryptofacilities.com/ws/v1',
     {
       // @TODO: reconnect websocket on disconnect
-      // @TODO: disconnect websocket on loss of focus (tab)
       // Will attempt to reconnect on all close events, such as server shutting down
       // shouldReconnect: (closeEvent) => true,
     },
