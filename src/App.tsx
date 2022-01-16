@@ -16,36 +16,27 @@ import {
   FEED_SNAPSHOT,
 } from './constants';
 
-// @TODO: unit test removeTotals
-// @TODO: move file removeTotals
-const removeTotals = (bid: IWSOrder) => bid.slice(0, 2);
-
 // @TODO: unit test reduceOrders
 // @TODO: move file reduceOrders
 const reduceOrders = (previousOldOrders: IWSOrder[], order: IWSOrder) => {
   const [price, size] = order;
   // remove zero sized orders
   if (size === 0) {
-    // console.log('Delete order: ', price);
-    return previousOldOrders
-      .filter((oldOrder) => oldOrder[0] !== price)
-      .map(removeTotals);
+    return previousOldOrders.filter((oldOrder) => oldOrder[0] !== price);
   }
 
   // updates
   if (size > 0) {
     // update old prices with new sizes
     if (previousOldOrders.find((oldOrder) => oldOrder[0] === price)) {
-      // console.log('Update order: ', price);
-      return previousOldOrders
-        .map((oldOrder) => (oldOrder[0] === price ? order : oldOrder))
-        .map(removeTotals);
+      return previousOldOrders.map((oldOrder) =>
+        oldOrder[0] === price ? order : oldOrder,
+      );
     }
 
     // add new prices
     if (previousOldOrders.find((oldOrder) => oldOrder[0] !== price)) {
-      // console.log('Add order: ', price);
-      return [...previousOldOrders, order].map(removeTotals);
+      return [...previousOldOrders, order];
     }
   }
 
@@ -98,14 +89,11 @@ const App = () => {
             asks: asks
               .reduce(reduceOrders, oldAsks)
               // sort ascending
-              .sort((a: [number], b: [number]) => a[0] - b[0])
-              // @TODO: dynamic length
-              .slice(0, 24),
+              .sort((a: [number], b: [number]) => a[0] - b[0]),
             bids: bids
               .reduce(reduceOrders, oldBids)
               // sort descending
-              .sort((a: [number], b: [number]) => b[0] - a[0])
-              .slice(0, 24),
+              .sort((a: [number], b: [number]) => b[0] - a[0]),
           }));
         }
       }
