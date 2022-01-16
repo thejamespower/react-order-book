@@ -8,11 +8,15 @@ interface IProps {
   orderBook: IOrderBook;
 }
 
+// @TODO: move file getTopOrder
 export const getTopOrder = (orders: IWSOrder[]) => orders[0][0];
 
+// @TODO: move file round
 export const round = (number: number) =>
   Math.round((number + Number.EPSILON) * 100) / 100;
 
+// @TODO: move file validateOrders
+// @TODO: create validateOrder that can be extended for orders[] to replace validateOrders
 export const validateOrders = (bids: IWSOrder[], asks: IWSOrder[]) =>
   bids && bids.length && asks && asks.length;
 

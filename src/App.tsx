@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 import Container from './components/container';
-import Header from './components/header';
-import Spread from './components/spread';
 import OrderBook from './components/order-book';
 
 import { IOrderBook, IWSOrder } from './components/order-book/types';
@@ -18,8 +16,12 @@ import {
   FEED_SNAPSHOT,
 } from './constants';
 
+// @TODO: unit test removeTotals
+// @TODO: move file removeTotals
 const removeTotals = (bid: IWSOrder) => bid.slice(0, 2);
 
+// @TODO: unit test reduceOrders
+// @TODO: move file reduceOrders
 const reduceOrders = (previousOldOrders: IWSOrder[], order: IWSOrder) => {
   const [price, size] = order;
   // remove zero sized orders
@@ -60,8 +62,10 @@ const App = () => {
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
     {
-      //   //Will attempt to reconnect on all close events, such as server shutting down
-      //   shouldReconnect: (closeEvent) => true,
+      // @TODO: reconnect websocket on disconnect
+      // @TODO: disconnect websocket on loss of focus (tab)
+      // Will attempt to reconnect on all close events, such as server shutting down
+      // shouldReconnect: (closeEvent) => true,
     },
   );
 
@@ -90,15 +94,17 @@ const App = () => {
       if (feed === FEED_DELTA) {
         if ((bids && bids.length) || (asks && asks.length)) {
           setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
+            // @TODO: DRY setOrderBook array chaining
             asks: asks
               .reduce(reduceOrders, oldAsks)
               // sort ascending
-              .sort((a: IWSOrder, b: IWSOrder) => a[0] - b[0])
+              .sort((a: [number], b: [number]) => a[0] - b[0])
+              // @TODO: dynamic length
               .slice(0, 24),
             bids: bids
               .reduce(reduceOrders, oldBids)
               // sort descending
-              .sort((a: IWSOrder, b: IWSOrder) => b[0] - a[0])
+              .sort((a: [number], b: [number]) => b[0] - a[0])
               .slice(0, 24),
           }));
         }
@@ -114,10 +120,6 @@ const App = () => {
           {feed === BTC_PRODUCT_ID ? 'BTCUSD' : 'ETHUSD'}
         </span>
       </p>
-
-      <Header title={translation.title}>
-        <Spread title={translation.spread} orderBook={orderBook} />
-      </Header>
 
       <OrderBook translation={translation} orderBook={orderBook} />
 

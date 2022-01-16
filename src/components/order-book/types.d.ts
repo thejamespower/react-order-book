@@ -12,6 +12,8 @@ export interface IProps {
     total: string;
     size: string;
     price: string;
+    title: string;
+    spread: string;
   };
   orderBook: {
     asks: IWSOrder[];
