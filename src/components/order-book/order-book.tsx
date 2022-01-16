@@ -66,13 +66,19 @@ const OrderBook: React.FC<IProps> = ({
                       style={{
                         background: `linear-gradient(to right, transparent ${stop}%, rgb(20 83 45) ${stop}%)`,
                       }}>
-                      <td className="text-right p-1 pr-8 font-semibold">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold">
                         {total}
                       </td>
-                      <td className="text-right p-1 pr-8 font-semibold">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold">
                         {size}
                       </td>
-                      <td className="text-right p-1 pr-8 font-semibold text-green-500">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold text-green-500">
                         {price}
                       </td>
                     </tr>
@@ -114,13 +120,19 @@ const OrderBook: React.FC<IProps> = ({
                       style={{
                         background: `linear-gradient(to left, transparent ${stop}%, rgb(127 29 29) ${stop}%)`,
                       }}>
-                      <td className="text-right p-1 pr-8 font-semibold text-red-500">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold text-red-500">
                         {price}
                       </td>
-                      <td className="text-right p-1 pr-8 font-semibold">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold">
                         {size}
                       </td>
-                      <td className="text-right p-1 pr-8 font-semibold">
+                      <td
+                        data-testid="grid-cell"
+                        className="text-right p-1 pr-8 font-semibold">
                         {total}
                       </td>
                     </tr>
