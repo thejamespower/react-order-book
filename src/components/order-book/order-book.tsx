@@ -11,12 +11,12 @@ const OrderBook: React.FC<IProps> = ({
   // bids with totals add
   const bids: IOBOrder[] = useMemo(
     () => calculateTotals(orderBook.bids),
-    [orderBook],
+    [orderBook.bids],
   );
   // asks with totals add
   const asks: IOBOrder[] = useMemo(
     () => calculateTotals(orderBook.asks),
-    [orderBook],
+    [orderBook.asks],
   );
   const highestTotal = useMemo(
     () => calculateHighestTotal([...bids, ...asks]),
