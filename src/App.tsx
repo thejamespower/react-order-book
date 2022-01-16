@@ -5,8 +5,18 @@ import Container from './components/container';
 import Header from './components/header';
 import Spread from './components/spread';
 import OrderBook from './components/order-book';
+
 import { IOrderBook, IWSOrder } from './components/order-book/types';
+
 import { translation } from './translation';
+import {
+  BTC_PRODUCT_ID,
+  ETH_PRODUCT_ID,
+  EVENT_SUBSCRIBE,
+  EVENT_UNSUBSCRIBE,
+  FEED_DELTA,
+  FEED_SNAPSHOT,
+} from './constants';
 
 const removeTotals = (bid: IWSOrder) => bid.slice(0, 2);
 
@@ -45,7 +55,7 @@ const App = () => {
     bids: [],
     asks: [],
   });
-  const [feed, setFeed] = useState('PI_XBTUSD');
+  const [feed, setFeed] = useState(BTC_PRODUCT_ID);
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
@@ -58,8 +68,8 @@ const App = () => {
   useEffect(() => {
     if (readyState === 1) {
       sendJsonMessage({
-        event: 'subscribe',
-        feed: 'book_ui_1',
+        event: EVENT_SUBSCRIBE,
+        feed: FEED_DELTA,
         product_ids: [feed],
       });
     }
@@ -72,12 +82,12 @@ const App = () => {
       const { bids, asks } = data;
 
       // snapshot message
-      if (feed === 'book_ui_1_snapshot') {
+      if (feed === FEED_SNAPSHOT) {
         setOrderBook({ bids, asks });
       }
 
       // delta message
-      if (feed === 'book_ui_1') {
+      if (feed === FEED_DELTA) {
         if ((bids && bids.length) || (asks && asks.length)) {
           setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
             asks: asks
@@ -101,7 +111,7 @@ const App = () => {
       <p className="p-4">
         Pair:{' '}
         <span className="font-semibold">
-          {feed === 'PI_XBTUSD' ? 'BTCUSD' : 'ETHUSD'}
+          {feed === BTC_PRODUCT_ID ? 'BTCUSD' : 'ETHUSD'}
         </span>
       </p>
 
@@ -117,11 +127,13 @@ const App = () => {
           onClick={() =>
             setFeed((oldFeed) => {
               sendJsonMessage({
-                event: 'unsubscribe',
-                feed: 'book_ui_1',
+                event: EVENT_UNSUBSCRIBE,
+                feed: FEED_DELTA,
                 product_ids: [oldFeed],
               });
-              return oldFeed === 'PI_XBTUSD' ? 'PI_ETHUSD' : 'PI_XBTUSD';
+              return oldFeed === BTC_PRODUCT_ID
+                ? ETH_PRODUCT_ID
+                : BTC_PRODUCT_ID;
             })
           }>
           {translation.toggleFeed}
