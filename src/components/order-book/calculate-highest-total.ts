@@ -1,6 +1,6 @@
-import { ICalculatedRow } from './types';
+import { IOBOrder } from './types';
 
-const calculateHighestTotal = (array: ICalculatedRow[]) =>
+const calculateHighestTotal = (array: IOBOrder[]) =>
   array.reduce(
     (previousValue, currentValue) =>
       currentValue[2] > previousValue ? currentValue[2] : previousValue,

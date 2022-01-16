@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import calculateRows from './calculate-rows';
-import { IProps } from './types';
+import calculateTotals from './calculate-totals';
+import { IOBOrder, IProps } from './types';
 import calculateHighestTotal from './calculate-highest-total';
 import calculateRowDepth from './calculate-row-depth';
 
@@ -8,8 +8,14 @@ const OrderBook: React.FC<IProps> = ({
   orderBook = { bids: [], asks: [] },
   translation,
 }): null | JSX.Element => {
-  const bids = useMemo(() => calculateRows(orderBook.bids), [orderBook]);
-  const asks = useMemo(() => calculateRows(orderBook.asks), [orderBook]);
+  const bids: IOBOrder[] = useMemo(
+    () => calculateTotals(orderBook.bids),
+    [orderBook],
+  );
+  const asks: IOBOrder[] = useMemo(
+    () => calculateTotals(orderBook.asks),
+    [orderBook],
+  );
   const highestTotal = useMemo(
     () => calculateHighestTotal([...bids, ...asks]),
     [bids, asks],

@@ -1,9 +1,9 @@
 import calculateHighestTotal from './calculate-highest-total';
-import { ICalculatedRow } from './types';
+import { IOBOrder } from './types';
 
 describe('calculateHighestTotal', () => {
   describe('given empty rows', () => {
-    const rows: ICalculatedRow[] = [];
+    const rows: IOBOrder[] = [];
 
     it('returns 0', () => {
       const result = calculateHighestTotal(rows);
@@ -12,7 +12,7 @@ describe('calculateHighestTotal', () => {
   });
 
   describe('given single rows', () => {
-    const rows: ICalculatedRow[] = [[40000, 100, 100]];
+    const rows: IOBOrder[] = [[40000, 100, 100]];
 
     it('calculates row', () => {
       const result = calculateHighestTotal(rows);
@@ -21,7 +21,7 @@ describe('calculateHighestTotal', () => {
   });
 
   describe('given multiple rows', () => {
-    const rows: ICalculatedRow[] = [
+    const rows: IOBOrder[] = [
       [40000, 100, 100],
       [40005, 1000, 1100],
     ];

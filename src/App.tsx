@@ -5,12 +5,12 @@ import Container from './components/container';
 import Header from './components/header';
 import Spread from './components/spread';
 import OrderBook from './components/order-book';
-import { IOrderBook, IRow } from './components/order-book/types';
+import { IOrderBook, IWSOrder } from './components/order-book/types';
 import { translation } from './translation';
 
-const removeTotals = (bid: IRow) => bid.slice(0, 2);
+const removeTotals = (bid: IWSOrder) => bid.slice(0, 2);
 
-const reduceOrders = (previousOldOrders: IRow[], order: IRow) => {
+const reduceOrders = (previousOldOrders: IWSOrder[], order: IWSOrder) => {
   const [price, size] = order;
   // remove zero sized orders
   if (size === 0) {
@@ -80,13 +80,19 @@ const App = () => {
         if ((bids && bids.length) || (asks && asks.length)) {
           setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
             asks: asks
-              .reduce(reduceOrders, oldAsks)
+              .reduce(
+                reduceOrders,
+                oldAsks.map((order): IWSOrder => [order[0], order[1]]),
+              )
               // sort ascending
-              .sort((a: IRow, b: IRow) => a[0] - b[0]),
+              .sort((a: IWSOrder, b: IWSOrder) => a[0] - b[0]),
             bids: bids
-              .reduce(reduceOrders, oldBids)
+              .reduce(
+                reduceOrders,
+                oldBids.map((order): IWSOrder => [order[0], order[1]]),
+              )
               // sort descending
-              .sort((a: IRow, b: IRow) => b[0] - a[0]),
+              .sort((a: IWSOrder, b: IWSOrder) => b[0] - a[0]),
           }));
         }
       }

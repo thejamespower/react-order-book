@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICalculatedRow, IOrderBook } from '../order-book/types';
+import { IOrderBook, IWSOrder } from '../order-book/types';
 import calculateSpread from './calculate-spread';
 import calculateSpreadPercent from './calculate-spread-percent';
 
@@ -8,25 +8,29 @@ interface IProps {
   orderBook: IOrderBook;
 }
 
-const getTopItem = (orders: ICalculatedRow[]) => orders[0][0];
+export const getTopItem = (orders: IWSOrder[]) => orders[0][0];
+
+export const round = (number: number) =>
+  Math.round((number + Number.EPSILON) * 100) / 100;
+
+export const validateOrders = (bids: IWSOrder[], asks: IWSOrder[]) =>
+  bids && bids.length && asks && asks.length;
 
 const Spread: React.FC<IProps> = ({ title, orderBook }): null | JSX.Element => {
   const { bids, asks } = orderBook;
 
-  if (!bids || !bids.length || !asks || !asks.length) {
+  if (!validateOrders(bids, asks)) {
     return null;
   }
 
   const topAsk = getTopItem(asks);
   const topBid = getTopItem(bids);
-
   const spread = calculateSpread(topAsk, topBid);
   const spreadPercentage = calculateSpreadPercent(spread, topAsk);
 
   return (
     <div className="text-center">
-      {!!title && <span>{title}:</span>} {spread} (
-      {Math.round((spreadPercentage * 100 + Number.EPSILON) * 100) / 100}%)
+      {!!title && <span>{title}:</span>} {spread} ({round(spreadPercentage)}%)
     </div>
   );
 };

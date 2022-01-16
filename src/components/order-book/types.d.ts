@@ -1,10 +1,10 @@
-export type IRow = number[];
+export type IWSOrder = [number, number];
 
-export type ICalculatedRow = IRow;
+export type IOBOrder = [number, number, number];
 
 export interface IOrderBook {
-  bids: ICalculatedRow[];
-  asks: ICalculatedRow[];
+  bids: IWSOrder[];
+  asks: IWSOrder[];
 }
 
 export interface IProps {
@@ -14,7 +14,7 @@ export interface IProps {
     price: string;
   };
   orderBook: {
-    asks: IRow[];
-    bids: IRow[];
+    asks: IWSOrder[];
+    bids: IWSOrder[];
   };
 }
