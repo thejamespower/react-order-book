@@ -15,15 +15,15 @@ const OrderBook: React.FC<IProps> = ({
   );
 
   return (
-    <div className="flex">
+    <div className="flex w-full px-8">
       {!!bids.length ? (
-        <div>
-          <table>
+        <div className="flex-1">
+          <table className="w-full">
             <thead>
               <tr>
-                <th>{translation.total}</th>
-                <th>{translation.size}</th>
-                <th>{translation.price}</th>
+                <th className="p-4">{translation.total}</th>
+                <th className="p-4">{translation.size}</th>
+                <th className="p-4">{translation.price}</th>
               </tr>
             </thead>
 
@@ -50,13 +50,13 @@ const OrderBook: React.FC<IProps> = ({
       ) : null}
 
       {!!asks.length ? (
-        <div>
-          <table>
+        <div className="flex-1">
+          <table className="w-full">
             <thead>
               <tr>
-                <th>{translation.price}</th>
-                <th>{translation.size}</th>
-                <th>{translation.total}</th>
+                <th className="p-4">{translation.price}</th>
+                <th className="p-4">{translation.size}</th>
+                <th className="p-4">{translation.total}</th>
               </tr>
             </thead>
 

@@ -7,9 +7,9 @@ interface IProps {
 
 const Header: React.FC<IProps> = ({ children, title }) => {
   return (
-    <header className="p-4">
+    <header className="flex p-4 space-between">
       {!!title && <Heading>{title}</Heading>}
-      {children}
+      <div className="mx-auto -translate-x-1/4">{children}</div>
     </header>
   );
 };

@@ -53,17 +53,13 @@ const App = () => {
     asks: [],
   });
 
-  const {
-    sendMessage,
-    sendJsonMessage,
-    lastMessage,
-    lastJsonMessage,
-    readyState,
-    getWebSocket,
-  } = useWebSocket('wss://www.cryptofacilities.com/ws/v1', {
-    //   //Will attempt to reconnect on all close events, such as server shutting down
-    //   shouldReconnect: (closeEvent) => true,
-  });
+  const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
+    'wss://www.cryptofacilities.com/ws/v1',
+    {
+      //   //Will attempt to reconnect on all close events, such as server shutting down
+      //   shouldReconnect: (closeEvent) => true,
+    },
+  );
 
   useEffect(() => {
     if (readyState === 1) {
@@ -105,7 +101,7 @@ const App = () => {
   return (
     <Container>
       <Header title={translation.title}>
-        {/*<Spread title={translation.spread} />*/}
+        <Spread title={translation.spread} orderBook={orderBook} />
       </Header>
       <OrderBook translation={translation} orderBook={orderBook} />
     </Container>
