@@ -5,4 +5,6 @@ export const translation = {
   size: 'Size',
   price: 'Price',
   toggleFeed: 'Toggle feed',
+  reconnect: 'Click to reconnect',
+  paused: 'Paused due to inactivity',
 };

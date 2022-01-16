@@ -49,6 +49,7 @@ const App = () => {
     asks: [],
   });
   const [productId, setProductId] = useState(BTC_PRODUCT_ID);
+  const [paused, setPaused] = useState(false);
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
@@ -62,6 +63,10 @@ const App = () => {
 
   useEffect(() => {
     if (readyState === 1) {
+      if (paused) {
+        setPaused(false);
+      }
+
       sendJsonMessage({
         event: EVENT_SUBSCRIBE,
         feed: FEED_DELTA,
@@ -100,8 +105,45 @@ const App = () => {
     }
   }, [lastMessage]);
 
+  // User has switched away from the tab (AKA tab is hidden)
+  const onBlur = () => {
+    setPaused(true);
+    sendJsonMessage({
+      event: EVENT_UNSUBSCRIBE,
+      feed: FEED_DELTA,
+      product_ids: [productId],
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener('blur', onBlur);
+    return () => {
+      window.removeEventListener('blur', onBlur);
+    };
+  });
+
   return (
     <Container>
+      {paused && (
+        <div className="absolute bg-black/80 top-0 right-0 bottom-0 left-0 z-10 flex items-center justify-center">
+          <div className="text-center bg-black p-8 rounded-lg">
+            <p className="mb-8">{translation.paused}</p>
+            <button
+              className="bg-purple-700 py-4 px-8 rounded font-bold hover:bg-purple-800 active:bg-purple-900"
+              onClick={() => {
+                sendJsonMessage({
+                  event: EVENT_SUBSCRIBE,
+                  feed: FEED_DELTA,
+                  product_ids: [productId],
+                });
+                setPaused(false);
+              }}>
+              {translation.reconnect}
+            </button>
+          </div>
+        </div>
+      )}
+
       <p className="p-4">
         Pair:{' '}
         <span className="font-semibold">
@@ -113,7 +155,7 @@ const App = () => {
 
       <div className="flex justify-center p-8">
         <button
-          className="bg-purple-700 py-4 px-8 rounded font-bold"
+          className="bg-purple-700 py-4 px-8 rounded font-bold hover:bg-purple-800 active:bg-purple-900"
           onClick={() =>
             setProductId((oldFeed) => {
               sendJsonMessage({
