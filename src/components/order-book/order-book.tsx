@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import calculateRows from './calculate-rows';
 import { IProps } from './types';
 import calculateHighestTotal from './calculate-highest-total';
+import calculateRowDepth from './calculate-row-depth';
 
 const OrderBook: React.FC<IProps> = ({
   orderBook = { bids: [], asks: [] },
@@ -15,9 +16,9 @@ const OrderBook: React.FC<IProps> = ({
   );
 
   return (
-    <div className="flex w-full px-8">
+    <div className="flex w-full px-8" data-testid="order-book">
       {!!bids.length ? (
-        <div className="flex-1">
+        <div data-testid="order-book-bids" className="flex-1">
           <table className="w-full">
             <thead>
               <tr>
@@ -29,9 +30,13 @@ const OrderBook: React.FC<IProps> = ({
 
             <tbody>
               {bids.map(([price, size, total]) => {
-                const rowDepth =
-                  (total / (highestTotal ? highestTotal : 1)) * 100;
+                if (!price || !size || !total) {
+                  return null;
+                }
+
+                const rowDepth = calculateRowDepth(total, highestTotal);
                 const stop = 100 - rowDepth;
+
                 return (
                   <tr
                     key={price}
@@ -50,7 +55,7 @@ const OrderBook: React.FC<IProps> = ({
       ) : null}
 
       {!!asks.length ? (
-        <div className="flex-1">
+        <div data-testid="order-book-asks" className="flex-1">
           <table className="w-full">
             <thead>
               <tr>
@@ -62,8 +67,11 @@ const OrderBook: React.FC<IProps> = ({
 
             <tbody>
               {asks.map(([price, size, total]) => {
-                const rowDepth =
-                  (total / (highestTotal ? highestTotal : 1)) * 100;
+                if (!price || !size || !total) {
+                  return null;
+                }
+
+                const rowDepth = calculateRowDepth(total, highestTotal);
                 const stop = 100 - rowDepth;
                 return (
                   <tr

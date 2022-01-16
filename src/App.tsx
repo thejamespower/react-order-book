@@ -6,14 +6,7 @@ import Header from './components/header';
 import Spread from './components/spread';
 import OrderBook from './components/order-book';
 import { IOrderBook, IRow } from './components/order-book/types';
-
-const translation = {
-  title: 'Order book',
-  spread: 'Spread',
-  total: 'Total',
-  size: 'Size',
-  price: 'Price',
-};
+import { translation } from './translation';
 
 const removeTotals = (bid: IRow) => bid.slice(0, 2);
 
@@ -88,9 +81,11 @@ const App = () => {
           setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
             asks: asks
               .reduce(reduceOrders, oldAsks)
+              // sort ascending
               .sort((a: IRow, b: IRow) => a[0] - b[0]),
             bids: bids
               .reduce(reduceOrders, oldBids)
+              // sort descending
               .sort((a: IRow, b: IRow) => b[0] - a[0]),
           }));
         }
