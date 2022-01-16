@@ -1,10 +1,11 @@
 import { IOBOrder } from './types';
 
 const calculateHighestTotal = (array: IOBOrder[]) =>
-  array.reduce(
-    (previousValue, currentValue) =>
-      currentValue[2] > previousValue ? currentValue[2] : previousValue,
-    0,
-  );
+  array
+    .map(([, , total]) => total)
+    .reduce(
+      (previousValue, total) => (total > previousValue ? total : previousValue),
+      0,
+    );
 
 export default calculateHighestTotal;
