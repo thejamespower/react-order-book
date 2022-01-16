@@ -1,6 +1,6 @@
-# BTC Live Trading Order Book
+# BTC/ETH Live Trading Order Book
 
-![Jan-16-2022 17-25-08](https://user-images.githubusercontent.com/7080202/149670855-5d1548dd-f638-49bd-b495-4f4d8de370c4.gif)
+![Jan-16-2022 18-26-29](https://user-images.githubusercontent.com/7080202/149672920-06918dbe-048e-43be-945c-2e66337c38ef.gif)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
