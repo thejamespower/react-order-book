@@ -23,30 +23,25 @@ const OrderBook: React.FC<IProps> = ({
     [bids, asks],
   );
 
-  const head = (
-    <thead>
-      <tr>
-        <th className="p-4">{translation.total}</th>
-        <th className="p-4">{translation.size}</th>
-        <th className="p-4">{translation.price}</th>
-      </tr>
-    </thead>
-  );
-
-  const cells = (total: number, size: number, price: number) => (
-    <>
-      <td>{total}</td>
-      <td>{size}</td>
-      <td>{price}</td>
-    </>
-  );
-
   return (
     <div className="flex w-full px-8" data-testid="order-book">
       {!!bids.length ? (
         <div data-testid="order-book-bids" className="flex-1">
           <table className="w-full">
-            {head}
+            <thead>
+              <tr>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.total}
+                </th>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.size}
+                </th>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.price}
+                </th>
+              </tr>
+            </thead>
+
             <tbody>
               {bids.map(([price, size, total]) => {
                 if (!price || !size || !total) {
@@ -62,7 +57,9 @@ const OrderBook: React.FC<IProps> = ({
                     style={{
                       background: `linear-gradient(to right, transparent ${stop}%, green ${stop}%)`,
                     }}>
-                    {cells(price, size, total)}
+                    <td className="text-right p-1 pr-8 font-bold">{total}</td>
+                    <td className="text-right p-1 pr-8 font-bold">{size}</td>
+                    <td className="text-right p-1 pr-8 font-bold">{price}</td>
                   </tr>
                 );
               })}
@@ -74,7 +71,20 @@ const OrderBook: React.FC<IProps> = ({
       {!!asks.length ? (
         <div data-testid="order-book-asks" className="flex-1">
           <table className="w-full">
-            {head}
+            <thead>
+              <tr>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.price}
+                </th>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.size}
+                </th>
+                <th className="text-right p-1 pr-8 font-bold">
+                  {translation.total}
+                </th>
+              </tr>
+            </thead>
+
             <tbody>
               {asks.map(([price, size, total]) => {
                 if (!price || !size || !total) {
@@ -89,7 +99,9 @@ const OrderBook: React.FC<IProps> = ({
                     style={{
                       background: `linear-gradient(to left, transparent ${stop}%, red ${stop}%)`,
                     }}>
-                    {cells(price, size, total)}
+                    <td className="text-right p-1 pr-8 font-bold">{price}</td>
+                    <td className="text-right p-1 pr-8 font-bold">{size}</td>
+                    <td className="text-right p-1 pr-8 font-bold">{total}</td>
                   </tr>
                 );
               })}

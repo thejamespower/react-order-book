@@ -33,7 +33,7 @@ const reduceOrders = (previousOldOrders: IWSOrder[], order: IWSOrder) => {
     // add new prices
     if (previousOldOrders.find((oldOrder) => oldOrder[0] !== price)) {
       // console.log('Add order: ', price);
-      return [...previousOldOrders, order].slice(0, 24).map(removeTotals);
+      return [...previousOldOrders, order].map(removeTotals);
     }
   }
 
@@ -80,19 +80,15 @@ const App = () => {
         if ((bids && bids.length) || (asks && asks.length)) {
           setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
             asks: asks
-              .reduce(
-                reduceOrders,
-                oldAsks.map((order): IWSOrder => [order[0], order[1]]),
-              )
+              .reduce(reduceOrders, oldAsks)
               // sort ascending
-              .sort((a: IWSOrder, b: IWSOrder) => a[0] - b[0]),
+              .sort((a: IWSOrder, b: IWSOrder) => a[0] - b[0])
+              .slice(0, 24),
             bids: bids
-              .reduce(
-                reduceOrders,
-                oldBids.map((order): IWSOrder => [order[0], order[1]]),
-              )
+              .reduce(reduceOrders, oldBids)
               // sort descending
-              .sort((a: IWSOrder, b: IWSOrder) => b[0] - a[0]),
+              .sort((a: IWSOrder, b: IWSOrder) => b[0] - a[0])
+              .slice(0, 24),
           }));
         }
       }
