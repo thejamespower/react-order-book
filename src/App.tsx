@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
 
 import Container from './components/container';
@@ -60,20 +60,31 @@ const App = () => {
     },
   );
 
-  useEffect(() => {
-    if (readyState === 1) {
-      if (paused) {
-        setPaused(false);
-      }
-
+  const sendDeltaMessage = useCallback(
+    (event: string) => {
       sendJsonMessage({
-        event: EVENT_SUBSCRIBE,
+        event,
         feed: FEED_DELTA,
         product_ids: [productId],
       });
-    }
-  }, [productId, readyState, sendJsonMessage]);
+    },
+    [productId, sendJsonMessage],
+  );
 
+  // watch websocket readyState
+  useEffect(() => {
+    // if okay
+    if (readyState === 1) {
+      // if paused, we just unsubscribed
+      if (paused) {
+        return;
+      }
+
+      sendDeltaMessage(EVENT_SUBSCRIBE);
+    }
+  }, [paused, productId, readyState, sendDeltaMessage]);
+
+  // watch for new message
   useEffect(() => {
     if (lastMessage !== null) {
       const data = JSON.parse(lastMessage.data);
@@ -106,14 +117,11 @@ const App = () => {
 
   // User has switched away from the tab (AKA tab is hidden)
   const onBlur = () => {
+    sendDeltaMessage(EVENT_UNSUBSCRIBE);
     setPaused(true);
-    sendJsonMessage({
-      event: EVENT_UNSUBSCRIBE,
-      feed: FEED_DELTA,
-      product_ids: [productId],
-    });
   };
 
+  // bind events
   useEffect(() => {
     window.addEventListener('blur', onBlur);
     return () => {
@@ -130,11 +138,7 @@ const App = () => {
             <button
               className="bg-purple-700 py-4 px-8 rounded font-bold hover:bg-purple-800 active:bg-purple-900"
               onClick={() => {
-                sendJsonMessage({
-                  event: EVENT_SUBSCRIBE,
-                  feed: FEED_DELTA,
-                  product_ids: [productId],
-                });
+                sendDeltaMessage(EVENT_SUBSCRIBE);
                 setPaused(false);
               }}>
               {translation.reconnect}
