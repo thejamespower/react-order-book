@@ -29,7 +29,7 @@ const Spread: React.FC<IProps> = ({ title, orderBook }): null | JSX.Element => {
   const spreadPercentage = calculateSpreadPercent(spread, topAsk);
 
   return (
-    <div className="text-center">
+    <div className="text-center text-gray-500">
       {!!title && <span>{title}:</span>} {spread} ({round(spreadPercentage)}%)
     </div>
   );

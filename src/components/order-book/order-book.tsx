@@ -29,7 +29,7 @@ const OrderBook: React.FC<IProps> = ({
         <div data-testid="order-book-bids" className="flex-1">
           <table className="w-full">
             <thead>
-              <tr>
+              <tr className="text-gray-500">
                 <th className="text-right p-1 pr-8 font-bold">
                   {translation.total}
                 </th>
@@ -55,11 +55,13 @@ const OrderBook: React.FC<IProps> = ({
                   <tr
                     key={price}
                     style={{
-                      background: `linear-gradient(to right, transparent ${stop}%, green ${stop}%)`,
+                      background: `linear-gradient(to right, transparent ${stop}%, rgb(20 83 45) ${stop}%)`,
                     }}>
                     <td className="text-right p-1 pr-8 font-bold">{total}</td>
                     <td className="text-right p-1 pr-8 font-bold">{size}</td>
-                    <td className="text-right p-1 pr-8 font-bold">{price}</td>
+                    <td className="text-right p-1 pr-8 font-bold text-green-500">
+                      {price}
+                    </td>
                   </tr>
                 );
               })}
@@ -72,7 +74,7 @@ const OrderBook: React.FC<IProps> = ({
         <div data-testid="order-book-asks" className="flex-1">
           <table className="w-full">
             <thead>
-              <tr>
+              <tr className="text-gray-500">
                 <th className="text-right p-1 pr-8 font-bold">
                   {translation.price}
                 </th>
@@ -97,9 +99,11 @@ const OrderBook: React.FC<IProps> = ({
                   <tr
                     key={price}
                     style={{
-                      background: `linear-gradient(to left, transparent ${stop}%, red ${stop}%)`,
+                      background: `linear-gradient(to left, transparent ${stop}%, rgb(127 29 29) ${stop}%)`,
                     }}>
-                    <td className="text-right p-1 pr-8 font-bold">{price}</td>
+                    <td className="text-right p-1 pr-8 font-bold text-red-500">
+                      {price}
+                    </td>
                     <td className="text-right p-1 pr-8 font-bold">{size}</td>
                     <td className="text-right p-1 pr-8 font-bold">{total}</td>
                   </tr>
