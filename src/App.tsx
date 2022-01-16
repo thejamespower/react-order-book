@@ -57,7 +57,7 @@ const App = () => {
     bids: [],
     asks: [],
   });
-  const [feed, setFeed] = useState(BTC_PRODUCT_ID);
+  const [productId, setProductId] = useState(BTC_PRODUCT_ID);
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
     'wss://www.cryptofacilities.com/ws/v1',
@@ -74,10 +74,10 @@ const App = () => {
       sendJsonMessage({
         event: EVENT_SUBSCRIBE,
         feed: FEED_DELTA,
-        product_ids: [feed],
+        product_ids: [productId],
       });
     }
-  }, [feed, readyState, sendJsonMessage]);
+  }, [productId, readyState, sendJsonMessage]);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -117,7 +117,7 @@ const App = () => {
       <p className="p-4">
         Pair:{' '}
         <span className="font-semibold">
-          {feed === BTC_PRODUCT_ID ? 'BTCUSD' : 'ETHUSD'}
+          {productId === BTC_PRODUCT_ID ? 'BTCUSD' : 'ETHUSD'}
         </span>
       </p>
 
@@ -127,7 +127,7 @@ const App = () => {
         <button
           className="bg-purple-700 py-4 px-8 rounded font-bold"
           onClick={() =>
-            setFeed((oldFeed) => {
+            setProductId((oldFeed) => {
               sendJsonMessage({
                 event: EVENT_UNSUBSCRIBE,
                 feed: FEED_DELTA,
