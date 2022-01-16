@@ -88,21 +88,19 @@ const App = () => {
 
       // delta message
       if (feed === 'book_ui_1') {
-        const { bids: oldBids, asks: oldAsks } = orderBook;
-
         if ((bids && bids.length) || (asks && asks.length)) {
-          setOrderBook({
+          setOrderBook(({ asks: oldAsks, bids: oldBids }) => ({
             asks: asks
               .reduce(reduceOrders, oldAsks)
               .sort((a: IRow, b: IRow) => a[0] - b[0]),
             bids: bids
               .reduce(reduceOrders, oldBids)
               .sort((a: IRow, b: IRow) => b[0] - a[0]),
-          });
+          }));
         }
       }
     }
-  }, [lastMessage, orderBook, setOrderBook]);
+  }, [lastMessage]);
 
   return (
     <Container>
