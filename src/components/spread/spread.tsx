@@ -8,7 +8,7 @@ interface IProps {
   orderBook: IOrderBook;
 }
 
-export const getTopItem = (orders: IWSOrder[]) => orders[0][0];
+export const getTopOrder = (orders: IWSOrder[]) => orders[0][0];
 
 export const round = (number: number) =>
   Math.round((number + Number.EPSILON) * 100) / 100;
@@ -23,8 +23,8 @@ const Spread: React.FC<IProps> = ({ title, orderBook }): null | JSX.Element => {
     return null;
   }
 
-  const topAsk = getTopItem(asks);
-  const topBid = getTopItem(bids);
+  const topAsk = getTopOrder(asks);
+  const topBid = getTopOrder(bids);
   const spread = calculateSpread(topAsk, topBid);
   const spreadPercentage = calculateSpreadPercent(spread, topAsk);
 

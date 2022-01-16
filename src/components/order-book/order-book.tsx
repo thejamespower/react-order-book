@@ -8,10 +8,12 @@ const OrderBook: React.FC<IProps> = ({
   orderBook = { bids: [], asks: [] },
   translation,
 }): null | JSX.Element => {
+  // bids with totals add
   const bids: IOBOrder[] = useMemo(
     () => calculateTotals(orderBook.bids),
     [orderBook],
   );
+  // asks with totals add
   const asks: IOBOrder[] = useMemo(
     () => calculateTotals(orderBook.asks),
     [orderBook],
@@ -21,19 +23,30 @@ const OrderBook: React.FC<IProps> = ({
     [bids, asks],
   );
 
+  const head = (
+    <thead>
+      <tr>
+        <th className="p-4">{translation.total}</th>
+        <th className="p-4">{translation.size}</th>
+        <th className="p-4">{translation.price}</th>
+      </tr>
+    </thead>
+  );
+
+  const cells = (total: number, size: number, price: number) => (
+    <>
+      <td>{total}</td>
+      <td>{size}</td>
+      <td>{price}</td>
+    </>
+  );
+
   return (
     <div className="flex w-full px-8" data-testid="order-book">
       {!!bids.length ? (
         <div data-testid="order-book-bids" className="flex-1">
           <table className="w-full">
-            <thead>
-              <tr>
-                <th className="p-4">{translation.total}</th>
-                <th className="p-4">{translation.size}</th>
-                <th className="p-4">{translation.price}</th>
-              </tr>
-            </thead>
-
+            {head}
             <tbody>
               {bids.map(([price, size, total]) => {
                 if (!price || !size || !total) {
@@ -49,9 +62,7 @@ const OrderBook: React.FC<IProps> = ({
                     style={{
                       background: `linear-gradient(to right, transparent ${stop}%, green ${stop}%)`,
                     }}>
-                    <td>{total}</td>
-                    <td>{size}</td>
-                    <td>{price}</td>
+                    {cells(price, size, total)}
                   </tr>
                 );
               })}
@@ -63,14 +74,7 @@ const OrderBook: React.FC<IProps> = ({
       {!!asks.length ? (
         <div data-testid="order-book-asks" className="flex-1">
           <table className="w-full">
-            <thead>
-              <tr>
-                <th className="p-4">{translation.price}</th>
-                <th className="p-4">{translation.size}</th>
-                <th className="p-4">{translation.total}</th>
-              </tr>
-            </thead>
-
+            {head}
             <tbody>
               {asks.map(([price, size, total]) => {
                 if (!price || !size || !total) {
@@ -85,9 +89,7 @@ const OrderBook: React.FC<IProps> = ({
                     style={{
                       background: `linear-gradient(to left, transparent ${stop}%, red ${stop}%)`,
                     }}>
-                    <td>{price}</td>
-                    <td>{size}</td>
-                    <td>{total}</td>
+                    {cells(price, size, total)}
                   </tr>
                 );
               })}
