@@ -5,7 +5,7 @@ const calculateHighestTotal = (array: IOBOrder[]) =>
     .map(([, , total]) => total)
     .reduce(
       (previousValue, total) => (total > previousValue ? total : previousValue),
-      0,
-    );
+    0,
+  );
 
 export default calculateHighestTotal;
