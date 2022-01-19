@@ -14,7 +14,7 @@ describe('calculateHighestTotal', () => {
   describe('given single rows', () => {
     const rows: IOBOrder[] = [[40000, 100, 100]];
 
-    it('calculates row', () => {
+    it('calculates highest total', () => {
       const result = calculateHighestTotal(rows);
       expect(result).toEqual(100);
     });
@@ -26,7 +26,7 @@ describe('calculateHighestTotal', () => {
       [40005, 1000, 1100],
     ];
 
-    it('calculates row', () => {
+    it('calculates highest total', () => {
       const result = calculateHighestTotal(rows);
       expect(result).toEqual(1100);
     });

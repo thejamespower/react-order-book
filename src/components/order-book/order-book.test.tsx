@@ -15,6 +15,7 @@ describe('OrderBook', () => {
 
   test.each([
     [
+      'given bids and no asks',
       {
         bids: [[40000, 100]],
         asks: [],
@@ -22,6 +23,7 @@ describe('OrderBook', () => {
       [100, 100, 40000],
     ],
     [
+      'given asks and no bids',
       {
         bids: [],
         asks: [[40010, 200]],
@@ -29,6 +31,7 @@ describe('OrderBook', () => {
       [40010, 200, 200],
     ],
     [
+      'given one row of asks and bids',
       {
         bids: [[40000, 100]],
         asks: [[40010, 200]],
@@ -36,6 +39,7 @@ describe('OrderBook', () => {
       [100, 100, 40000, 40010, 200, 200],
     ],
     [
+      'given two rows of asks and bids',
       {
         bids: [
           [40000, 100],
@@ -48,8 +52,11 @@ describe('OrderBook', () => {
       },
       [100, 100, 40000, 1100, 1000, 39990, 40010, 200, 200, 40020, 2000, 2200],
     ],
-  ] as [IOrderBook, number[]][])('renders correctly', (orderBook, expected) => {
-    render(<OrderBook translation={translation} orderBook={orderBook} />);
-    assertCells(expected);
-  });
+  ] as [string, IOrderBook, number[]][])(
+    `%s, renders correctly`,
+    (title, orderBook, expected) => {
+      render(<OrderBook translation={translation} orderBook={orderBook} />);
+      assertCells(expected);
+    },
+  );
 });
