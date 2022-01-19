@@ -4,7 +4,7 @@ import useWebSocket from 'react-use-websocket';
 import Container from './components/container';
 import OrderBook from './components/order-book';
 
-import { IOrderBook, IWSOrder } from './components/order-book/types';
+import { IOrderBook } from './components/order-book/types';
 
 import { translation } from './translation';
 import {
@@ -16,33 +16,7 @@ import {
   FEED_SNAPSHOT,
 } from './constants';
 import Button from './components/button/button';
-
-// @TODO: unit test reduceOrders
-// @TODO: move file reduceOrders
-const reduceOrders = (previousOldOrders: IWSOrder[], order: IWSOrder) => {
-  const [price, size] = order;
-  // remove zero sized orders
-  if (size === 0) {
-    return previousOldOrders.filter((oldOrder) => oldOrder[0] !== price);
-  }
-
-  // updates
-  if (size > 0) {
-    // update old prices with new sizes
-    if (previousOldOrders.find((oldOrder) => oldOrder[0] === price)) {
-      return previousOldOrders.map((oldOrder) =>
-        oldOrder[0] === price ? order : oldOrder,
-      );
-    }
-
-    // add new prices
-    if (previousOldOrders.find((oldOrder) => oldOrder[0] !== price)) {
-      return [...previousOldOrders, order];
-    }
-  }
-
-  return previousOldOrders;
-};
+import { reduceOrders } from './reduce-orders';
 
 const App = () => {
   const [orderBook, setOrderBook] = useState<IOrderBook>({
