@@ -8,4 +8,5 @@ export const translation = {
   reconnect: 'Click to reconnect',
   paused: 'Paused due to inactivity',
   pair: 'Pair',
+  availablePairs: 'Available pairs',
 };

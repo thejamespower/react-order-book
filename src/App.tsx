@@ -8,14 +8,11 @@ import { IOrderBook } from './components/order-book/types';
 
 import { translation } from './translation';
 import {
-  BTC_CURRENCY_CODE,
-  BTC_PRODUCT_ID,
-  ETH_CURRENCY_CODE,
-  ETH_PRODUCT_ID,
   EVENT_SUBSCRIBE,
   EVENT_UNSUBSCRIBE,
   FEED_DELTA,
   FEED_SNAPSHOT,
+  PRODUCTS,
   webSocketUrl,
 } from './constants';
 import Button from './components/button/button';
@@ -26,7 +23,7 @@ const App = () => {
     bids: [],
     asks: [],
   });
-  const [productId, setProductId] = useState(BTC_PRODUCT_ID);
+  const [productId, setProductId] = useState(PRODUCTS[0].id);
   const [paused, setPaused] = useState(false);
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
@@ -123,12 +120,28 @@ const App = () => {
         </div>
       )}
 
-      <p className="p-4">
-        {translation.pair}:
-        <span className="font-semibold">
-          {productId === BTC_PRODUCT_ID ? BTC_CURRENCY_CODE : ETH_CURRENCY_CODE}
-        </span>
-      </p>
+      <header className="p-4">
+        <p className="mb-4">
+          {translation.pair}:{' '}
+          <span className="font-semibold">
+            {PRODUCTS.length &&
+              PRODUCTS.find((product) => product?.id === productId)?.code}
+          </span>
+        </p>
+
+        <p>{translation.availablePairs}:</p>
+        <ul>
+          {PRODUCTS.map((product) => {
+            return (
+              <li
+                key={product.id}
+                className={product.id === productId ? 'font-bold' : ''}>
+                {product.code}
+              </li>
+            );
+          })}
+        </ul>
+      </header>
 
       <OrderBook translation={translation} orderBook={orderBook} />
 
@@ -136,14 +149,17 @@ const App = () => {
         <Button
           onClick={() =>
             setProductId((oldFeed) => {
+              const index = PRODUCTS.findIndex(
+                (product) => product.id === productId,
+              );
               sendJsonMessage({
                 event: EVENT_UNSUBSCRIBE,
                 feed: FEED_DELTA,
                 product_ids: [oldFeed],
               });
-              return oldFeed === BTC_PRODUCT_ID
-                ? ETH_PRODUCT_ID
-                : BTC_PRODUCT_ID;
+              return index + 1 === PRODUCTS.length
+                ? PRODUCTS[0].id
+                : PRODUCTS[index + 1].id;
             })
           }>
           {translation.toggleFeed}
