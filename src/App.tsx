@@ -130,14 +130,22 @@ const App = () => {
         </p>
 
         <table className="table-fixed min-w-full text-center">
-          <tr>
-            <td>Bid</td>
-            <td>Ask</td>
-          </tr>
-          <tr className="font-bold text-lg">
-            <td className="w-1/2 text-green-500">{orderBook.bids[0][0]}</td>
-            <td className="w-1/2 text-red-500">{orderBook.asks[0][0]}</td>
-          </tr>
+          <thead>
+            <tr>
+              <th>Bid</th>
+              <th>Ask</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="font-bold text-lg">
+              <td className="w-1/2 text-green-500">
+                {orderBook.bids.length && orderBook.bids[0][0]}
+              </td>
+              <td className="w-1/2 text-red-500">
+                {orderBook.asks.length && orderBook.asks[0][0]}
+              </td>
+            </tr>
+          </tbody>
         </table>
       </header>
 

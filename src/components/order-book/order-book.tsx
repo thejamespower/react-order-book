@@ -34,7 +34,7 @@ const OrderBook: React.FC<IProps> = ({
       <div className="flex w-full px-8" data-testid="order-book">
         {!!bids.length ? (
           <div data-testid="order-book-bids" className="flex-1">
-            <table className="w-full">
+            <table className="w-full table-fixed">
               <thead>
                 <tr className="text-gray-500">
                   <th className="text-right p-1 pr-8 font-semibold">
