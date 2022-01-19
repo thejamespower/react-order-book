@@ -120,8 +120,8 @@ const App = () => {
         </div>
       )}
 
-      <header className="p-4">
-        <p className="mb-4">
+      <header className="p-4 pt-8">
+        <p className="mb-4 text-center">
           {translation.pair}:{' '}
           <span className="font-semibold">
             {PRODUCTS.length &&
@@ -129,8 +129,23 @@ const App = () => {
           </span>
         </p>
 
+        <table className="table-fixed min-w-full text-center">
+          <tr>
+            <td>Bid</td>
+            <td>Ask</td>
+          </tr>
+          <tr className="font-bold text-lg">
+            <td className="w-1/2 text-green-500">{orderBook.bids[0][0]}</td>
+            <td className="w-1/2 text-red-500">{orderBook.asks[0][0]}</td>
+          </tr>
+        </table>
+      </header>
+
+      <OrderBook translation={translation} orderBook={orderBook} />
+
+      <div className="text-center p-8">
         <p>{translation.availablePairs}:</p>
-        <ul>
+        <ul className="mb-4">
           {PRODUCTS.map((product) => {
             return (
               <li
@@ -141,11 +156,6 @@ const App = () => {
             );
           })}
         </ul>
-      </header>
-
-      <OrderBook translation={translation} orderBook={orderBook} />
-
-      <div className="flex justify-center p-8">
         <Button
           onClick={() =>
             setProductId((oldFeed) => {
