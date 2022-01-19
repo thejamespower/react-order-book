@@ -8,12 +8,15 @@ import { IOrderBook } from './components/order-book/types';
 
 import { translation } from './translation';
 import {
+  BTC_CURRENCY_CODE,
   BTC_PRODUCT_ID,
+  ETH_CURRENCY_CODE,
   ETH_PRODUCT_ID,
   EVENT_SUBSCRIBE,
   EVENT_UNSUBSCRIBE,
   FEED_DELTA,
   FEED_SNAPSHOT,
+  webSocketUrl,
 } from './constants';
 import Button from './components/button/button';
 import { reduceOrders } from './reduce-orders';
@@ -27,7 +30,7 @@ const App = () => {
   const [paused, setPaused] = useState(false);
 
   const { sendJsonMessage, lastMessage, readyState } = useWebSocket(
-    'wss://www.cryptofacilities.com/ws/v1',
+    webSocketUrl,
     {
       // Will attempt to reconnect on all close events, such as server shutting down
       shouldReconnect: () => true,
@@ -121,9 +124,9 @@ const App = () => {
       )}
 
       <p className="p-4">
-        Pair:{' '}
+        {translation.pair}:
         <span className="font-semibold">
-          {productId === BTC_PRODUCT_ID ? 'BTCUSD' : 'ETHUSD'}
+          {productId === BTC_PRODUCT_ID ? BTC_CURRENCY_CODE : ETH_CURRENCY_CODE}
         </span>
       </p>
 
