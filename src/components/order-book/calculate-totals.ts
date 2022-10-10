@@ -1,6 +1,6 @@
-import { IOBOrder, IWSOrder } from './types';
+import { IOrderWithTotal, IOrder } from './types';
 
-const calculateTotals = (rows: IWSOrder[]): IOBOrder[] => {
+const calculateTotals = (rows: IOrder[]): IOrderWithTotal[] => {
   let total = 0;
 
   return rows.map(([price, size]) => {

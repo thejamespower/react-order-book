@@ -1,13 +1,13 @@
-export type IWSOrder = [number, number];
+export type IOrder = [number, number];
 
-export type IOBOrder = [number, number, number];
+export type IOrderWithTotal = [number, number, number];
 
 export interface IOrderBook {
-  bids: IWSOrder[];
-  asks: IWSOrder[];
+  bids: IOrder[];
+  asks: IOrder[];
 }
 
-export interface IProps {
+export interface IOrderBookProps {
   translation: {
     total: string;
     size: string;
@@ -16,7 +16,7 @@ export interface IProps {
     spread: string;
   };
   orderBook: {
-    asks: IWSOrder[];
-    bids: IWSOrder[];
+    asks: IOrder[];
+    bids: IOrder[];
   };
 }

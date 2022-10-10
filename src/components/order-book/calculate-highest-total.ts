@@ -1,6 +1,6 @@
-import { IOBOrder } from './types';
+import { IOrderWithTotal } from './types';
 
-const calculateHighestTotal = (array: IOBOrder[]) =>
+const calculateHighestTotal = (array: IOrderWithTotal[]) =>
   array
     .map(([, , total]) => total)
     .reduce(

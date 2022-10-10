@@ -1,22 +1,20 @@
 import React, { useMemo } from 'react';
 import calculateTotals from './calculate-totals';
-import { IOBOrder, IProps } from './types';
+import { IOrderWithTotal, IOrderBookProps } from './types';
 import calculateHighestTotal from './calculate-highest-total';
 import calculateRowDepth from './calculate-row-depth';
 import Header from '../header';
 import Spread from '../spread';
 
-const OrderBook: React.FC<IProps> = ({
+const OrderBook: React.FC<IOrderBookProps> = ({
   orderBook = { bids: [], asks: [] },
   translation,
 }): null | JSX.Element => {
-  // bids with totals add
-  const bids: IOBOrder[] = useMemo(
+  const bids: IOrderWithTotal[] = useMemo(
     () => calculateTotals(orderBook.bids.slice(0, 25)),
     [orderBook.bids],
   );
-  // asks with totals add
-  const asks: IOBOrder[] = useMemo(
+  const asks: IOrderWithTotal[] = useMemo(
     () => calculateTotals(orderBook.asks.slice(0, 25)),
     [orderBook.asks],
   );

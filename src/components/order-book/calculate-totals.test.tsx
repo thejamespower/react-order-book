@@ -1,9 +1,9 @@
 import calculateTotals from './calculate-totals';
-import { IWSOrder } from './types';
+import { IOrder } from './types';
 
 describe('calculateTotals', () => {
   describe('given empty rows', () => {
-    const rows: IWSOrder[] = [];
+    const rows: IOrder[] = [];
 
     it('returns []', () => {
       const result = calculateTotals(rows);
@@ -12,7 +12,7 @@ describe('calculateTotals', () => {
   });
 
   describe('given single rows', () => {
-    const rows: IWSOrder[] = [[40000, 100]];
+    const rows: IOrder[] = [[40000, 100]];
 
     it('calculates row', () => {
       const result = calculateTotals(rows);
@@ -21,7 +21,7 @@ describe('calculateTotals', () => {
   });
 
   describe('given multiple rows', () => {
-    const rows: IWSOrder[] = [
+    const rows: IOrder[] = [
       [40000, 100],
       [40005, 1000],
     ];

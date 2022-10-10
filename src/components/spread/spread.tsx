@@ -1,5 +1,5 @@
 import React from 'react';
-import { IOrderBook, IWSOrder } from '../order-book/types';
+import { IOrderBook, IOrder } from '../order-book/types';
 import calculateSpread from './calculate-spread';
 import calculateSpreadPercent from './calculate-spread-percent';
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 // @TODO: move file getTopOrder
-export const getTopOrder = (orders: IWSOrder[]) => orders[0][0];
+export const getTopOrder = (orders: IOrder[]) => orders[0][0];
 
 // @TODO: move file round
 export const round = (number: number) =>
@@ -17,7 +17,7 @@ export const round = (number: number) =>
 
 // @TODO: move file validateOrders
 // @TODO: create validateOrder that can be extended for orders[] to replace validateOrders
-export const validateOrders = (bids: IWSOrder[], asks: IWSOrder[]) =>
+export const validateOrders = (bids: IOrder[], asks: IOrder[]) =>
   bids && bids.length && asks && asks.length;
 
 const Spread: React.FC<IProps> = ({ title, orderBook }): null | JSX.Element => {
